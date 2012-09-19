@@ -1,21 +1,27 @@
+def sibling(file)
+  File.join(File.dirname(__FILE__), file)
+end
+
+require sibling('syntax')
 
 module Stepladder
   class Worker
+    attr_accessor :supplier, :task
+
+    include Stepladder::Syntax
 
     def initialize(source=nil, &block)
-      @block = block
+      # This is nasty.  Go polymorphic: the programmer knows
+      # what the purpose of the worker is when she creates it.
       if source.is_a? Stepladder::Worker
         @supplier = source
-      else
-        @injected = source
+      elsif source.is_a? Regexp
+        @filter = source
       end
 
-      # this generator fiber is meant to be a default starting point.
-      @my_little_machine = Fiber.new do
-        loop do
-          Fiber.yield output
-        end
-      end
+      @task = block
+
+      create_fiber
     end
 
     # others may ask this guy "give me a value"
@@ -23,41 +29,36 @@ module Stepladder
       @my_little_machine.resume
     end
 
+    def tell(message)
+      # not implemented yet...will interact with a dispatcher
+    end
+
+    def |(subscribing_worker)
+      subscribing_worker.supplier = self
+      subscribing_worker
+    end
+
     private
 
-    # could override this method in a subclass --an alternative
-    # to passing in a code block or an injected method
-    def mutator(value)
-      unless @injected || @block
-        raise Exception.new("You need to initialize with an injected value or a code block, or override the mutator method!")
-      end
-      @block.call value
-    end
-
-    def mutate(value)
-      mutator value
-    end
-
-    def output
-      if @injected
-        output_injected
-      else
-        output_standard
+    def create_fiber
+      @my_little_machine = Fiber.new do
+        loop do
+          Fiber.yield output
+        end
       end
     end
 
-    def output_standard
-      mutate input
-    end
-
-    def output_injected
-      previous_value = @injected
-      @injected = mutate @injected
-      previous_value
+    # could override this method in a subclass
+    def processor(value)
+      @task.call value
     end
 
     def input
-      @supplier.nil? ? @injected : @supplier.ask
+      supplier.ask
+    end
+
+    def output
+      process input
     end
 
   end
