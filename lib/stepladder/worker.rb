@@ -6,19 +6,11 @@ require sibling('syntax')
 
 module Stepladder
   class Worker
-    attr_accessor :supplier, :task
+    attr_accessor :task
 
     include Stepladder::Syntax
 
     def initialize(source=nil, &block)
-      # This is nasty.  Go polymorphic: the programmer knows
-      # what the purpose of the worker is when she creates it.
-      if source.is_a? Stepladder::Worker
-        @supplier = source
-      elsif source.is_a? Regexp
-        @filter = source
-      end
-
       @task = block
 
       create_fiber
@@ -26,6 +18,7 @@ module Stepladder
 
     # others may ask this guy "give me a value"
     def ask
+      @my_little_machine ||= create_fiber
       @my_little_machine.resume
     end
 
@@ -42,9 +35,14 @@ module Stepladder
 
     def create_fiber
       @my_little_machine = Fiber.new do
-        loop do
-          Fiber.yield output
-        end
+        fiber_loop
+      end
+    end
+
+    # overload this as necessary for different sorts of workers
+    def fiber_loop
+      loop do
+        Fiber.yield output
       end
     end
 
@@ -54,7 +52,7 @@ module Stepladder
     end
 
     def input
-      supplier.ask
+      raise "subclass & override the #input method"
     end
 
     def output

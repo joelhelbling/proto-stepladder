@@ -1,7 +1,6 @@
 module Stepladder
   module Syntax
 
-
     def process(value=nil)
       processor value
     end
@@ -12,10 +11,6 @@ module Stepladder
 
     def has_supplier?
       ! supplier.nil?
-    end
-
-    def has_filter?
-      ! filter.nil?  
     end
 
     def has_task?

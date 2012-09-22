@@ -4,28 +4,11 @@ require './lib/stepladder/faucet'
 describe Stepladder::Worker do
   it { should respond_to(:ask) }
 
-  # will be moving this into an integration test
-  describe "chain" do
-    subject do
-      Stepladder::Worker.new(supplier) do |message|
-        message.gsub(/o/, "0")
-      end
-    end
-
-    let(:supplier) do
-      Stepladder::Faucet.new do
-        "foo"
-      end
-    end
-
-    its(:ask) { should == "f00" }
-  end
-
   describe "pipeline" do
     subject { source_worker | subscribing_worker }
     let(:source_worker) { Stepladder::Faucet.new(1) {|v| v += 1 } }
     let(:subscribing_worker) do
-      Stepladder::Worker.new do |value|
+      Stepladder::RelayWorker.new do |value|
         value *= 3
       end
     end
@@ -41,12 +24,12 @@ describe Stepladder::Worker do
     subject { integers | evens }
     let(:integers) { Stepladder::Faucet.new(1) {|i| i += 1 } }
     let(:evens) do
-      Stepladder::Worker.new do |number|
+      Stepladder::Filter.new do |number|
         number if ((number % 2) == 0)
       end
     end
 
-    xit "returns only even numbers" do
+    it "returns only even numbers" do
       subject.ask.should == 2
       subject.ask.should == 4
     end

@@ -7,7 +7,7 @@ require sibling('worker')
 
 module Stepladder
   class Faucet < Worker
-    attr_reader :injected, :task
+    attr_reader :injected
 
     def initialize(injected=nil, &block)
       @injected = injected
@@ -16,8 +16,6 @@ module Stepladder
       if has_injected? && ! has_task?
         @task = lambda { |value| @injected }
       end
-
-      create_fiber
     end
 
     def has_injected?
@@ -26,19 +24,18 @@ module Stepladder
 
     private
 
-    def processor(value=nil)
+    def validate_task
       unless has_task?
         raise Exception.new(
           "You need to initialize with an injected" +
           " value or a code block, or override the processor" )
       end
-
-      @task.call value
     end
 
-    def input
-      puts "Faucet's input"
-      injected
+    def processor(value=nil)
+      validate_task
+
+      @task.call value
     end
 
     def output
