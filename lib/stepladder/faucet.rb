@@ -50,14 +50,6 @@ module Stepladder
       end
     end
 
-    def validate_task
-      unless has_task?
-        raise Exception.new(
-          "You need to initialize with an injected" +
-          " value or a code block, or override the processor" )
-      end
-    end
-
   end
 end
 

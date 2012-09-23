@@ -32,18 +32,8 @@ module Stepladder
       end
     end
 
-    def has_filter?
-      ! filter.nil?
-    end
-
     def filter_matches?(value)
       filter.call value
-    end
-
-    def validate_filter
-      unless has_filter?
-        raise Exception.new("You need to initialize with a filter")
-      end
     end
 
   end

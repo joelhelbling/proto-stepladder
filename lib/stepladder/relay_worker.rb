@@ -16,7 +16,7 @@ module Stepladder
     private
 
     def default_task
-      lambda{|value| value }
+      lambda{ |value| value }
     end
 
     # handle EOF
@@ -27,12 +27,6 @@ module Stepladder
 
     def receive_input
       supplier && supplier.ask
-    end
-
-    def validate_supplier
-      unless has_supplier?
-        raise Exception.new("You need to initialize with a supplier")
-      end
     end
 
   end

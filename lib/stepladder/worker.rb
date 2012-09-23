@@ -2,11 +2,13 @@ def sibling(file)
   File.join(File.dirname(__FILE__), file)
 end
 
+require sibling 'validator'
+
 module Stepladder
   class Worker
     attr_accessor :task
 
-    #include Stepladder::Syntax
+    include Stepladder::Validator
 
     def initialize(source=nil, &block)
       @task = block
@@ -59,14 +61,6 @@ module Stepladder
 
     def output
       process receive_input
-    end
-
-    def has_supplier?
-      ! supplier.nil?
-    end
-
-    def has_task?
-      ! task.nil?
     end
 
   end
