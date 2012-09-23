@@ -1,5 +1,8 @@
-require './lib/stepladder/worker'
-require './lib/stepladder/faucet'
+require 'spec_helper'
+require 'stepladder/worker'
+require 'stepladder/faucet'
+require 'stepladder/filter'
+require 'stepladder/relay_worker'
 
 describe Stepladder::Worker do
   it { should respond_to(:ask) }

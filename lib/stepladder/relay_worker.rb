@@ -2,8 +2,7 @@ def sibling(file)
   File.join(File.dirname(__FILE__), file)
 end
 
-require sibling('syntax')
-require sibling('worker')
+require sibling 'worker'
 
 module Stepladder
   class RelayWorker < Worker

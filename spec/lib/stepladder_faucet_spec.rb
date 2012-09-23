@@ -1,21 +1,6 @@
-require './lib/stepladder/worker'
-require './lib/stepladder/faucet'
-
-module Stepladder
-  class Faucet < Worker
-
-    def initialize(injected=nil, &block)
-      @injected = injected
-      @task = block unless block.nil?
-
-      if has_injected? && ! has_task?
-        @task = lambda { |value| injected }
-      end
-
-      create_fiber
-    end
-  end
-end
+require 'spec_helper'
+require 'stepladder/worker'
+require 'stepladder/faucet'
 
 describe Stepladder::Faucet do
   it { should be_a(Stepladder::Worker) }

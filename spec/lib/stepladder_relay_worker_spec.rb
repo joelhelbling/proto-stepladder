@@ -1,5 +1,6 @@
-require './lib/stepladder/worker'
-require './lib/stepladder/relay_worker'
+require 'spec_helper'
+require 'stepladder/worker'
+require 'stepladder/relay_worker'
 
 describe Stepladder::RelayWorker do
   it { should be_a(Stepladder::Worker) }
