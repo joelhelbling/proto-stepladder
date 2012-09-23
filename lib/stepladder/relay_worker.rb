@@ -15,10 +15,6 @@ module Stepladder
 
     private
 
-    def default_task
-      lambda{ |value| value }
-    end
-
     # handle EOF
     def processor(value=nil)
       validate_supplier

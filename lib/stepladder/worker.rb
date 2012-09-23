@@ -39,11 +39,15 @@ module Stepladder
       end
     end
 
-    # overload this as necessary for different sorts of workers
+    # overloadable
     def fiber_loop
       loop do
         Fiber.yield output
       end
+    end
+
+    def default_task
+      lambda{ |value| value }
     end
 
     # could override this method in a subclass
@@ -53,10 +57,6 @@ module Stepladder
 
     def process(value=nil)
       processor value
-    end
-
-    def receive_input
-      raise "subclass & override the #receive_input method"
     end
 
     def output

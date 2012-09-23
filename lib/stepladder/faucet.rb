@@ -18,7 +18,7 @@ module Stepladder
       @task = block
 
       if has_injected? && ! has_task?
-        @task = lambda { |value| value }
+        @task = default_task
       end
     end
 
