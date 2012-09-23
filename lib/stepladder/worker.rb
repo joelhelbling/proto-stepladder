@@ -22,10 +22,6 @@ module Stepladder
       @my_little_machine.resume
     end
 
-    def tell(message)
-      # not implemented yet...will interact with a dispatcher
-    end
-
     def |(subscribing_worker)
       subscribing_worker.supplier = self
       subscribing_worker
@@ -51,12 +47,12 @@ module Stepladder
       @task.call value
     end
 
-    def input
-      raise "subclass & override the #input method"
+    def receive_input
+      raise "subclass & override the #receive_input method"
     end
 
     def output
-      process input
+      process receive_input
     end
 
   end

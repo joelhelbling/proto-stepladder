@@ -23,11 +23,12 @@ module Stepladder
       validate_supplier
       validate_filter
       loop do
-        while value = input
+        while value = receive_input
           if filter_matches? value
             Fiber.yield value
           end
         end
+        Fiber.yield nil
       end
     end
 

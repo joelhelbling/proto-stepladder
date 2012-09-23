@@ -35,4 +35,18 @@ describe Stepladder::RelayWorker do
       subject.ask.should == "f00"
     end
   end
+
+  context "nil (EOF) received from supplier" do
+    subject do
+      Stepladder::RelayWorker.new(supplier) do |value|
+        value.freak_out_over_nonexistent_method?
+      end
+    end
+    let(:supplier) { double }
+
+    it "passes on the nil" do
+      supplier.stub(:ask).and_return(nil)
+      subject.ask.should == nil
+    end
+  end
 end

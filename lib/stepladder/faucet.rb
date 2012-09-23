@@ -5,6 +5,11 @@ end
 require sibling 'syntax'
 require sibling 'worker'
 
+# This worker does not have a #receive_input method;
+# it is a generator and thus "generates" values
+# rather than receiving them from another Stepladder
+# worker.
+
 module Stepladder
   class Faucet < Worker
     attr_reader :injected
@@ -14,7 +19,7 @@ module Stepladder
       @task = block
 
       if has_injected? && ! has_task?
-        @task = lambda { |value| @injected }
+        @task = lambda { |value| value }
       end
     end
 
@@ -24,14 +29,6 @@ module Stepladder
 
     private
 
-    def validate_task
-      unless has_task?
-        raise Exception.new(
-          "You need to initialize with an injected" +
-          " value or a code block, or override the processor" )
-      end
-    end
-
     def processor(value=nil)
       validate_task
 
@@ -40,11 +37,25 @@ module Stepladder
 
     def output
       if has_injected?
+        process_injected
+      else
+        process
+      end
+    end
+
+    def process_injected
+      if injected
         previous_injected = injected
         @injected = process injected
         previous_injected
-      else
-        process
+      end
+    end
+
+    def validate_task
+      unless has_task?
+        raise Exception.new(
+          "You need to initialize with an injected" +
+          " value or a code block, or override the processor" )
       end
     end
 

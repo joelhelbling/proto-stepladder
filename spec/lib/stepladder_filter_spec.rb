@@ -33,4 +33,30 @@ describe Stepladder::Filter do
       end
     end
   end
+
+  context "nil (EOF) received from supplier" do
+    context "with a block" do
+      subject do
+        Stepladder::Filter.new(supplier) do |value|
+          value.freak_out_over_nonexistent_method?
+        end
+      end
+      let(:supplier) { double }
+
+      it "passes on the nil" do
+        supplier.stub(:ask).and_return(nil)
+        subject.ask.should == nil
+      end
+    end
+    context "with a regex" do
+      subject { Stepladder::Filter.new(supplier, /00/) }
+
+      let(:supplier) { double }
+
+      it "passes on the nil" do
+        supplier.stub(:ask).and_return(nil)
+        subject.ask.should == nil
+      end
+    end
+  end
 end

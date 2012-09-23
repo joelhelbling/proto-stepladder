@@ -24,7 +24,7 @@ describe Stepladder::Faucet do
   context "with only a task (block)" do
     subject do
       Stepladder::Faucet.new do |v|
-        :bar 
+        :bar
       end
     end
 
@@ -67,6 +67,21 @@ describe Stepladder::Faucet do
         subject.processor = lambda { |v| :bar }
         subject.ask.should == :bar
       end
+    end
+  end
+
+  context "when it reaches the 'end'" do
+    subject do
+      Stepladder::Faucet.new(2) do |value|
+        value -= 1
+        value > 0 && value
+      end
+    end
+
+    it "returns a nil" do
+      subject.ask.should == 2
+      subject.ask.should == 1
+      subject.ask.should be_nil
     end
   end
 end

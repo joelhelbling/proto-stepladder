@@ -19,21 +19,22 @@ module Stepladder
       lambda{|value| value }
     end
 
+    # handle EOF
+    def processor(value=nil)
+      validate_supplier
+      value && @task.call(value)
+    end
+
+    def receive_input
+      supplier && supplier.ask
+    end
+
     def validate_supplier
       unless has_supplier?
         raise Exception.new("You need to initialize with a supplier")
       end
     end
 
-    def processor(value=nil)
-      validate_supplier
-
-      @task.call value
-    end
-
-    def input
-      supplier && supplier.ask
-    end
   end
 end
 
