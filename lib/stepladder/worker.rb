@@ -2,13 +2,11 @@ def sibling(file)
   File.join(File.dirname(__FILE__), file)
 end
 
-require sibling('syntax')
-
 module Stepladder
   class Worker
     attr_accessor :task
 
-    include Stepladder::Syntax
+    #include Stepladder::Syntax
 
     def initialize(source=nil, &block)
       @task = block
@@ -25,6 +23,10 @@ module Stepladder
     def |(subscribing_worker)
       subscribing_worker.supplier = self
       subscribing_worker
+    end
+
+    def processor=(task)
+      @task = task
     end
 
     private
@@ -47,12 +49,24 @@ module Stepladder
       @task.call value
     end
 
+    def process(value=nil)
+      processor value
+    end
+
     def receive_input
       raise "subclass & override the #receive_input method"
     end
 
     def output
       process receive_input
+    end
+
+    def has_supplier?
+      ! supplier.nil?
+    end
+
+    def has_task?
+      ! task.nil?
     end
 
   end
