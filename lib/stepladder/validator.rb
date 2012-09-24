@@ -1,20 +1,14 @@
 module Stepladder
   module Validator
 
-    def has_supplier?
-      ! @supplier.nil?
+    def has?(attribute)
+      ! self.instance_variable_get(attribute.to_sym).nil?
     end
 
-    def has_task?
-      ! @task.nil?
-    end
-
-    def has_injected?
-      ! @injected.nil?
-    end
-
-    def has_filter?
-      ! @filter.nil?
+    def method_missing(method, *args, &block)
+      if method.to_s =~ /^has_(.+)\?$/
+        has?($1.to_sym)
+      end
     end
 
     private
