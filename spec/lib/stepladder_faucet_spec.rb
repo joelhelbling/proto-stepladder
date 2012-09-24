@@ -64,7 +64,7 @@ describe Stepladder::Faucet do
     context "with #processor=" do
       it "changes the worker's task" do
         subject.ask.should == :foo
-        subject.processor = lambda { |v| :bar }
+        subject.processor = lambda { :bar }
         subject.ask.should == :bar
       end
     end
@@ -73,8 +73,8 @@ describe Stepladder::Faucet do
   context "when it reaches the 'end'" do
     subject do
       Stepladder::Faucet.new(2) do |value|
-        value -= 1
-        value > 0 && value
+        value && value -= 1
+        (value && value > 0) ? value : nil
       end
     end
 

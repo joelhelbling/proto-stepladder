@@ -37,7 +37,12 @@ module Stepladder
     def processor(value=nil)
       do_validations
 
-      @task.call value
+      # protect against sending in nil
+      if value.nil?
+        @task.call
+      else
+        @task.call value
+      end
     end
 
     def output
@@ -49,9 +54,9 @@ module Stepladder
     end
 
     def process_injected
-      if injected
-        previous_injected = injected
-        @injected = process injected
+      if injected 
+        previous_injected = @injected
+        @injected = process @injected
         previous_injected
       end
     end
