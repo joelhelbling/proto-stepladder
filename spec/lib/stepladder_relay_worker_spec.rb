@@ -8,7 +8,7 @@ describe Stepladder::RelayWorker do
   context "with no supplier" do
     subject { Stepladder::RelayWorker.new { puts "hoo boy" } }
     it "fails on #ask" do
-      lambda { subject.ask }.should raise_error(Stepladder::Exception, /with a supplier/)
+      lambda { subject.ask }.should raise_error(Stepladder::Exception, /supplier/)
     end
   end
 

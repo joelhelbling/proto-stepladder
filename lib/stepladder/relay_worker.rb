@@ -11,13 +11,15 @@ module Stepladder
     def initialize(supplier=nil, &block)
       @supplier = supplier
       @task = block || default_task
+
+      validate supplier: nil
     end
 
     private
 
     # handle EOF
     def processor(value=nil)
-      validate_supplier
+      do_validations
       value && @task.call(value)
     end
 
