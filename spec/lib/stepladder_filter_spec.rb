@@ -8,7 +8,7 @@ describe Stepladder::Filter do
   context "with no supplier" do
     subject { Stepladder::Filter.new { puts "hoo boy" } }
     it "fails on #ask" do
-      lambda { subject.ask }.should raise_error(Stepladder::Exception, /with a supplier/)
+      lambda { subject.ask }.should raise_error(Stepladder::Exception, /supplier/)
     end
   end
 
@@ -18,7 +18,8 @@ describe Stepladder::Filter do
 
     it "fails on #ask" do
       supplier.stub(:ask)
-      lambda { subject.ask }.should raise_error(Stepladder::Exception, /with a filter/)
+      lambda { subject.ask }.should raise_error(Stepladder::Exception, /filter/)
+
     end
   end
 

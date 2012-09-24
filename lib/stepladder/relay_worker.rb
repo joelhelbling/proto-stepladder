@@ -17,7 +17,6 @@ module Stepladder
 
     private
 
-    # handle EOF
     def processor(value=nil)
       do_validations
       value && @task.call(value)

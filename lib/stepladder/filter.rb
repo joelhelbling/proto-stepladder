@@ -15,13 +15,14 @@ module Stepladder
       else
         @filter = block
       end
+      validate supplier: nil
+      validate filter: nil
     end
 
     private
 
     def fiber_loop
-      validate_supplier
-      validate_filter
+      do_validations
       loop do
         while value = receive_input
           if filter_matches? value

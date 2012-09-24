@@ -20,6 +20,8 @@ module Stepladder
       if has_injected? && ! has_task?
         @task = default_task
       end
+
+      validate task: nil
     end
 
     def has_injected?
@@ -29,7 +31,7 @@ module Stepladder
     private
 
     def processor(value=nil)
-      validate_task
+      do_validations
 
       @task.call value
     end
