@@ -32,7 +32,7 @@ module Stepladder
     end
 
     def eof_or_matching?(value)
-      value.nil? || filter_matches?(value)
+      eof?(value) || filter_matches?(value)
     end
 
     def filter_matches?(value)

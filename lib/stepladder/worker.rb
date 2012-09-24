@@ -46,6 +46,10 @@ module Stepladder
       end
     end
 
+    def eof?(value)
+      value.nil?
+    end
+
     def default_task
       lambda{ |value| value }
     end

@@ -84,4 +84,12 @@ describe Stepladder::Faucet do
       subject.ask.should be_nil
     end
   end
+
+  context "when handed a supplier" do
+    subject { Stepladder::Faucet.new(1) }
+
+    it "politely declines" do
+      lambda { subject.supplier = :foo }.should raise_error(Stepladder::Exception, /don't require a supplier/)
+    end
+  end
 end

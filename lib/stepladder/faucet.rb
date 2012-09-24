@@ -25,7 +25,11 @@ module Stepladder
     end
 
     def has_injected?
-      ! injected.nil?
+      ! @injected.nil?
+    end
+
+    def supplier=(value)
+      raise Exception.new "I'm a #{self.class.name}.  I don't require a supplier.  I supply."
     end
 
     private
