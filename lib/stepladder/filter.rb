@@ -22,15 +22,17 @@ module Stepladder
     private
 
     def fiber_loop
-      do_validations
       loop do
-        while value = receive_input
-          if filter_matches? value
-            Fiber.yield value
-          end
+        do_validations
+        value = receive_input
+        if eof_or_matching? value
+          Fiber.yield value
         end
-        Fiber.yield nil
       end
+    end
+
+    def eof_or_matching?(value)
+      value.nil? || filter_matches?(value)
     end
 
     def filter_matches?(value)
