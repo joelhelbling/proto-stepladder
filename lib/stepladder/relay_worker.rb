@@ -18,7 +18,6 @@ module Stepladder
     private
 
     def processor(value=nil)
-      do_validations
       value && @task.call(value)
     end
 

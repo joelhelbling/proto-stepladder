@@ -35,8 +35,6 @@ module Stepladder
     private
 
     def processor(value=nil)
-      do_validations
-
       # protect against sending in nil
       if value.nil?
         @task.call

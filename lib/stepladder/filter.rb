@@ -23,7 +23,6 @@ module Stepladder
 
     def fiber_loop
       loop do
-        do_validations
         value = receive_input
         if eof_or_matching? value
           Fiber.yield value

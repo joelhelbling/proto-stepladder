@@ -18,6 +18,7 @@ module Stepladder
 
     # others may ask this guy "give me a value"
     def ask
+      do_validations
       @my_little_machine ||= create_fiber
       @my_little_machine.resume
     end
