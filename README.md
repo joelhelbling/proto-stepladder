@@ -51,6 +51,14 @@ great article [Pipelines Using Fibers in Ruby
 In particular I was really intrigued by the possibility of extremely low
 coupling between a sequence of workers through the use of fibers.
 
+## Wut?
+
+The purpose of Stepladder is extremely loose coupling between workers in
+a series.  Each worker should need to know as little as possible about
+its neighbor.  Under the hood a worker uses Ruby fibers to handoff its
+work product (i.e. `Fiber.yield stuff`) and to ask for something new
+to work on (i.e. `supplier.resume`).
+
 ## Ok, but why is it called "Stepladder"?
 
 This framework's name was inspired by a conversation with Tim Wingfield
@@ -63,6 +71,5 @@ I have waited a long time to make that farce a reality, but hey, I take
 joke frameworks very seriously.
 ([Really?](http://github.com/joelhelbling/really))
 
-## Roadmap
-
-* For peas and corn, make it a gem already.
+Hopefully we will soon know the answer to the age-old question: "How
+many Ruby fibers does it take to screw in a lightbulb?"
