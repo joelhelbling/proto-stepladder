@@ -1,3 +1,5 @@
+_"How many Ruby fibers does it take to screw in a lightbulb?"_
+
 ## Quick Start
 
 Initialize with a block of code:
@@ -71,5 +73,10 @@ I have waited a long time to make that farce a reality, but hey, I take
 joke frameworks very seriously.
 ([Really?](http://github.com/joelhelbling/really))
 
-Hopefully we will soon know the answer to the age-old question: "How
-many Ruby fibers does it take to screw in a lightbulb?"
+## Proto?
+
+Yeah.  Initially the workers were all one class.  Then I started
+splitting out behaviors into modules.  Then I switched to the
+inheritance scheme you see now.  But I unsatisfied: I feel like the
+classes are not very easy to understand.  So I am planning a re-take.
+
