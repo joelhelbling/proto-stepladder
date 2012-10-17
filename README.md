@@ -25,7 +25,7 @@ Or just override the mutator:
 ```ruby
 hulk = Stepladder::Worker.new
 
-def hulk.mutator(value)
+def hulk.processor(value)
   "smash!"
 end
 
