@@ -44,15 +44,11 @@ module Stepladder
     end
 
     def output
-      if has_injected?
-        process_injected
-      else
-        process
-      end
+      has_injected? ? process_injected : process
     end
 
     def process_injected
-      if injected 
+      if injected
         previous_injected = @injected
         @injected = process @injected
         previous_injected
