@@ -12,12 +12,9 @@ module Stepladder
 
     def initialize(source=nil, &block)
       @task = block
-
-      create_fiber
     end
 
-    # others may ask this guy "give me a value"
-    def ask
+    def product
       do_validations
       @my_little_machine ||= create_fiber
       @my_little_machine.resume
@@ -32,6 +29,10 @@ module Stepladder
       @task = task
     end
 
+    def handoff(product)
+      Fiber.yield product
+    end
+
     private
 
     def create_fiber
@@ -43,7 +44,7 @@ module Stepladder
     # overloadable
     def fiber_loop
       loop do
-        Fiber.yield output
+        handoff output
       end
     end
 

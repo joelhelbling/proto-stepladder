@@ -7,8 +7,8 @@ describe Stepladder::Faucet do
 
   context "with no injected value and no task" do
     subject { Stepladder::Faucet.new }
-    it "fails on #ask" do
-      lambda{ subject.ask }.should raise_error(Stepladder::Exception)
+    it "fails on #product" do
+      lambda{ subject.product }.should raise_error(Stepladder::Exception)
     end
   end
 
@@ -16,8 +16,8 @@ describe Stepladder::Faucet do
     subject { Stepladder::Faucet.new(:foo) }
 
     it "repeatedly returns the injected value" do
-      subject.ask.should == :foo
-      subject.ask.should == :foo
+      subject.product.should == :foo
+      subject.product.should == :foo
     end
   end
 
@@ -29,8 +29,8 @@ describe Stepladder::Faucet do
     end
 
     it "repeatedly returns the result of the task" do
-      subject.ask.should == :bar
-      subject.ask.should == :bar
+      subject.product.should == :bar
+      subject.product.should == :bar
     end
   end
 
@@ -42,9 +42,9 @@ describe Stepladder::Faucet do
     end
 
     it "iterates on the injected value" do
-      subject.ask.should == 0
-      subject.ask.should == 2
-      subject.ask.should == 4
+      subject.product.should == 0
+      subject.product.should == 2
+      subject.product.should == 4
     end
   end
 
@@ -53,19 +53,19 @@ describe Stepladder::Faucet do
 
     context "with instance method" do
       it "changes the worker's task" do
-        subject.ask.should == :foo
+        subject.product.should == :foo
         def subject.processor(value)
           :bar
         end
-        subject.ask.should == :bar
+        subject.product.should == :bar
       end
     end
 
     context "with #processor=" do
       it "changes the worker's task" do
-        subject.ask.should == :foo
+        subject.product.should == :foo
         subject.processor = lambda { :bar }
-        subject.ask.should == :bar
+        subject.product.should == :bar
       end
     end
   end
@@ -79,9 +79,9 @@ describe Stepladder::Faucet do
     end
 
     it "returns a nil" do
-      subject.ask.should == 2
-      subject.ask.should == 1
-      subject.ask.should be_nil
+      subject.product.should == 2
+      subject.product.should == 1
+      subject.product.should be_nil
     end
   end
 

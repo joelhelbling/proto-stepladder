@@ -7,8 +7,8 @@ describe Stepladder::Filter do
 
   context "with no supplier" do
     subject { Stepladder::Filter.new { puts "hoo boy" } }
-    it "fails on #ask" do
-      lambda { subject.ask }.should raise_error(Stepladder::Exception, /supplier/)
+    it "fails on #product" do
+      lambda { subject.product }.should raise_error(Stepladder::Exception, /supplier/)
     end
   end
 
@@ -16,9 +16,9 @@ describe Stepladder::Filter do
     subject { Stepladder::Filter.new(supplier) }
     let(:supplier) { double }
 
-    it "fails on #ask" do
-      supplier.stub(:ask)
-      lambda { subject.ask }.should raise_error(Stepladder::Exception, /filter/)
+    it "fails on #product" do
+      supplier.stub(:product)
+      lambda { subject.product }.should raise_error(Stepladder::Exception, /filter/)
 
     end
   end
@@ -28,9 +28,9 @@ describe Stepladder::Filter do
     let(:supplier) { Stepladder::Faucet.new(1) { |n| n += 1 } }
     context "matching input" do
       it "returns only matching values" do
-        supplier.ask.should == 1
-        supplier.ask.should == 2
-        subject.ask.should == 100
+        supplier.product.should == 1
+        supplier.product.should == 2
+        subject.product.should == 100
       end
     end
   end
@@ -45,8 +45,8 @@ describe Stepladder::Filter do
       let(:supplier) { double }
 
       it "passes on the nil" do
-        supplier.stub(:ask).and_return(nil)
-        subject.ask.should == nil
+        supplier.stub(:product).and_return(nil)
+        subject.product.should == nil
       end
     end
     context "with a regex" do
@@ -55,8 +55,8 @@ describe Stepladder::Filter do
       let(:supplier) { double }
 
       it "passes on the nil" do
-        supplier.stub(:ask).and_return(nil)
-        subject.ask.should == nil
+        supplier.stub(:product).and_return(nil)
+        subject.product.should == nil
       end
     end
   end

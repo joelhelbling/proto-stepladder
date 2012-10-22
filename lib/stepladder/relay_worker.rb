@@ -22,7 +22,7 @@ module Stepladder
     end
 
     def receive_input
-      supplier && supplier.ask
+      supplier && supplier.product
     end
 
   end

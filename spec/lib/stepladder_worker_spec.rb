@@ -5,7 +5,7 @@ require 'stepladder/filter'
 require 'stepladder/relay_worker'
 
 describe Stepladder::Worker do
-  it { should respond_to(:ask) }
+  it { should respond_to(:product) }
 
   describe "pipeline" do
     subject { source_worker | subscribing_worker }
@@ -17,9 +17,9 @@ describe Stepladder::Worker do
     end
 
     specify "the daisy-chain" do
-      subject.ask.should == 3
-      subject.ask.should == 6
-      subject.ask.should == 9
+      subject.product.should == 3
+      subject.product.should == 6
+      subject.product.should == 9
     end
   end
 
@@ -33,8 +33,8 @@ describe Stepladder::Worker do
     end
 
     it "returns only even numbers" do
-      subject.ask.should == 2
-      subject.ask.should == 4
+      subject.product.should == 2
+      subject.product.should == 4
     end
   end
 

@@ -25,7 +25,7 @@ module Stepladder
       loop do
         value = receive_input
         if eof_or_matching? value
-          Fiber.yield value
+          handoff value
         end
       end
     end

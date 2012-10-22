@@ -7,8 +7,8 @@ describe Stepladder::RelayWorker do
 
   context "with no supplier" do
     subject { Stepladder::RelayWorker.new { puts "hoo boy" } }
-    it "fails on #ask" do
-      lambda { subject.ask }.should raise_error(Stepladder::Exception, /supplier/)
+    it "fails on #product" do
+      lambda { subject.product }.should raise_error(Stepladder::Exception, /supplier/)
     end
   end
 
@@ -17,8 +17,8 @@ describe Stepladder::RelayWorker do
     let(:supplier) { double }
 
     it "simply passes through the supplier's value" do
-      supplier.stub(:ask).and_return(:foo)
-      subject.ask.should == :foo
+      supplier.stub(:product).and_return(:foo)
+      subject.product.should == :foo
     end
   end
 
@@ -31,8 +31,8 @@ describe Stepladder::RelayWorker do
     let(:supplier) { double }
 
     it "operates on values passed from the supplier" do
-      supplier.stub(:ask).and_return("foo")
-      subject.ask.should == "f00"
+      supplier.stub(:product).and_return("foo")
+      subject.product.should == "f00"
     end
   end
 
@@ -45,8 +45,8 @@ describe Stepladder::RelayWorker do
     let(:supplier) { double }
 
     it "passes on the nil" do
-      supplier.stub(:ask).and_return(nil)
-      subject.ask.should == nil
+      supplier.stub(:product).and_return(nil)
+      subject.product.should == nil
     end
   end
 end
